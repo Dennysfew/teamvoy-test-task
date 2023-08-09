@@ -1,5 +1,5 @@
 //
-//  NewsCatagory.swift
+//  NewsCategory.swift
 //  teamvoy-test-task
 //
 //  Created by Denys on 8/9/23.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum NewsCatagory: String, CaseIterable {
+enum NewsCategory: String, CaseIterable {
     case general
     case business
     case technology
@@ -25,6 +25,6 @@ enum NewsCatagory: String, CaseIterable {
  
 }
 
-extension NewsCatagory: Identifiable {
+extension NewsCategory: Identifiable {
     var id: Self { self }
 }

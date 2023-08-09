@@ -18,10 +18,10 @@ enum DataFetchPhase<T> {
 class ArticleNewsViewModel: ObservableObject {
   
     @Published var phase = DataFetchPhase<[Article]>.empty
-    @Published var selectedCategory: NewsCatagory
+    @Published var selectedCategory: NewsCategory
     private let newsAPI = NewsAPI.shared
     
-    init(articles: [Article]? = nil, selectedCategory: NewsCatagory = .general) {
+    init(articles: [Article]? = nil, selectedCategory: NewsCategory = .general) {
         if let articles = articles {
             self.phase = .success(articles)
         } else {

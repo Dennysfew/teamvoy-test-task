@@ -21,7 +21,7 @@ struct NewsAPI {
         return decoder
     }()
     
-    func fetch(from category: NewsCatagory) async throws -> [Article] {
+    func fetch(from category: NewsCategory) async throws -> [Article] {
         try await featchArticles(from: generateNewsURL(from: category))
     }
     
@@ -65,7 +65,7 @@ struct NewsAPI {
         return components.url!
     }
     
-    private func generateNewsURL(from category: NewsCatagory) -> URL {
+    private func generateNewsURL(from category: NewsCategory) -> URL {
         var components = URLComponents(string: "https://newsapi.org/v2/top-headlines")!
         components.queryItems = [
             URLQueryItem(name: "apiKey", value: apiKey),

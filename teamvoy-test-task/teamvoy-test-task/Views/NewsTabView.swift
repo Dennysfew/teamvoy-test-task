@@ -60,7 +60,7 @@ struct NewsTabView: View {
     private var menu: some View {
         Menu {
             Picker("Categoty", selection: $articleNewsVM.selectedCategory) {
-                ForEach(NewsCatagory.allCases) {
+                ForEach(NewsCategory.allCases) {
                     Text($0.text).tag($0)
                 }
             }
