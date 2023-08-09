@@ -17,26 +17,27 @@ enum DataFetchPhase<T> {
 @MainActor
 class ArticleNewsViewModel: ObservableObject {
   
-    @Published var phase = DataFetchPhase<[Article]>.empty
+    @Published var dataFetchPhase = DataFetchPhase<[Article]>.empty
     @Published var selectedCategory: NewsCategory
     private let newsAPI = NewsAPI.shared
     
     init(articles: [Article]? = nil, selectedCategory: NewsCategory = .general) {
         if let articles = articles {
-            self.phase = .success(articles)
+            self.dataFetchPhase = .success(articles)
         } else {
-            self.phase = .empty
+            self.dataFetchPhase = .empty
         }
         self.selectedCategory = selectedCategory
     }
+    
     func loadArticles() async {
-        phase = .empty
+        dataFetchPhase = .empty
         
         do {
             let articles = try await newsAPI.fetch(from: selectedCategory)
-            phase = .success(articles)
+            dataFetchPhase = .success(articles)
         } catch {
-            phase = .failure(error)
+            dataFetchPhase = .failure(error)
         }
     }
 }
