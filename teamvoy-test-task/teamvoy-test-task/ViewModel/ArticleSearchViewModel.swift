@@ -10,6 +10,7 @@ import SwiftUI
 @MainActor
 class ArticleSearchViewModel: ObservableObject {
     @Published var dataFetchPhase = DataFetchPhase<[Article]>.empty
+    @Published var selectedTimePeriod: DateType = .lastMonth
     @Published var searchQuery = ""
     private let newsAPI = NewsAPI.shared
     
@@ -22,7 +23,7 @@ class ArticleSearchViewModel: ObservableObject {
         }
         
         do {
-            let articles = try await newsAPI.search(for: trimmedQuery)
+            let articles = try await newsAPI.search(for: trimmedQuery, during: selectedTimePeriod)
             dataFetchPhase = .success(articles)
         } catch {
             dataFetchPhase = .failure(error)

@@ -25,8 +25,8 @@ struct NewsAPI {
         try await featchArticles(from: generateNewsURL(from: category))
     }
     
-    func search(for query: String) async throws -> [Article] {
-        try await featchArticles(from: generateSearchURL(from: query))
+    func search(for query: String, during dateType: DateType) async throws -> [Article] {
+        try await featchArticles(from: generateSearchURL(from: query, during: dateType))
     }
     
     private func featchArticles(from url: URL) async throws -> [Article] {
@@ -54,12 +54,45 @@ struct NewsAPI {
         NSError(domain: "NewsAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }
     
-    private func generateSearchURL(from query: String) -> URL {
+    private func generateSearchURL(from query: String, during dateType: DateType) -> URL {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            var startDate = Date()
+            var endDate = Date()
+            
+        switch dateType {
+        case .today:
+            // Already set to today's date
+            break
+        case .yesterday:
+            startDate = Calendar.current.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+            endDate = startDate
+        case .lastThreeDays:
+            startDate = Calendar.current.date(byAdding: .day, value: -3, to: startDate) ?? startDate
+            endDate = Calendar.current.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+        case .lastWeek:
+            startDate = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: startDate) ?? startDate
+            endDate = Calendar.current.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+        case .lastTwoWeeks:
+            startDate = Calendar.current.date(byAdding: .weekOfYear, value: -2, to: startDate) ?? startDate
+            endDate = Calendar.current.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+        case .lastMonth:
+            startDate = Calendar.current.date(byAdding: .month, value: -1, to: startDate) ?? startDate
+            endDate = Calendar.current.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+            
+        }
+        
+        let formattedStartDate = dateFormatter.string(from: startDate)
+        let formattedEndDate = dateFormatter.string(from: endDate)
+        
         var components = URLComponents(string: "https://newsapi.org/v2/everything")!
         components.queryItems = [
             URLQueryItem(name: "apiKey", value: apiKey),
             URLQueryItem(name: "language", value: "en"),
-            URLQueryItem(name: "q", value: query)
+            URLQueryItem(name: "q", value: query),
+            URLQueryItem(name: "from", value: formattedStartDate),
+            URLQueryItem(name: "to", value: formattedEndDate)
         ]
         
         return components.url!

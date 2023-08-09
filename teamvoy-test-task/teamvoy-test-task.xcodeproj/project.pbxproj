@@ -25,6 +25,7 @@
 		9AA5F2A02A84119B003A8D67 /* ArticleSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA5F29F2A84119B003A8D67 /* ArticleSearchViewModel.swift */; };
 		9AA5F2A22A8411FA003A8D67 /* SearchTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA5F2A12A8411FA003A8D67 /* SearchTabView.swift */; };
 		9AA5F2A42A841D49003A8D67 /* NewsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AA5F2A32A841D49003A8D67 /* NewsCategory.swift */; };
+		9AB0AE0A2A844B4500AE1D32 /* DateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AB0AE092A844B4500AE1D32 /* DateType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 		9AA5F29F2A84119B003A8D67 /* ArticleSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSearchViewModel.swift; sourceTree = "<group>"; };
 		9AA5F2A12A8411FA003A8D67 /* SearchTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTabView.swift; sourceTree = "<group>"; };
 		9AA5F2A32A841D49003A8D67 /* NewsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCategory.swift; sourceTree = "<group>"; };
+		9AB0AE092A844B4500AE1D32 /* DateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				9A2091B12A8250C600205608 /* Article.swift */,
 				9A2091B32A82510F00205608 /* NewsAPIResponse.swift */,
 				9AA5F2A32A841D49003A8D67 /* NewsCategory.swift */,
+				9AB0AE092A844B4500AE1D32 /* DateType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				9A2091BC2A82528900205608 /* ArticleRowView.swift in Sources */,
 				9A49440F2A838D9000E59D3F /* NewsTabView.swift in Sources */,
 				9A5ABA4E2A7EC5DC0002586D /* teamvoy_test_taskApp.swift in Sources */,
+				9AB0AE0A2A844B4500AE1D32 /* DateType.swift in Sources */,
 				9AA5F2A02A84119B003A8D67 /* ArticleSearchViewModel.swift in Sources */,
 				9A2091B42A82510F00205608 /* NewsAPIResponse.swift in Sources */,
 				9AA5F2A22A8411FA003A8D67 /* SearchTabView.swift in Sources */,
