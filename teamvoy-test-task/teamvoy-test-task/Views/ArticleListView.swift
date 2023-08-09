@@ -37,6 +37,5 @@ struct ArticleListView_Previews: PreviewProvider {
         NavigationView {
             ArticleListView(articles: Article.defaultData)
         }
-       
     }
 }

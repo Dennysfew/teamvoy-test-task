@@ -16,60 +16,62 @@ struct NewsTabView: View {
             ArticleListView(articles: articles)
                 .overlay(overlayView)
                 .refreshable {
-                    loadTask()
+                    loadArticles()
                 }
                 .onAppear {
-                    loadTask()
+                    loadArticles()
                     
                 }
-                .onChange(of: articleNewsVM.selectedCategory, perform: { _ in
-                    loadTask()
-                })
+                .onChange(of: articleNewsVM.selectedCategory) { _ in
+                    loadArticles()
+                }
                 .navigationTitle(articleNewsVM.selectedCategory.text)
                 .navigationBarItems(trailing: menu)
         }
     }
+    // MARK: - Private Views
     
     @ViewBuilder
     private var overlayView: some View {
-        switch articleNewsVM.phase {
+        switch articleNewsVM.dataFetchPhase {
         case .empty:
             ProgressView()
         case .success(let articles) where articles.isEmpty:
             EmptyPlaceHolderView(text: "No Articles", image: nil)
         case .failure(let error):
             RetryView(text: error.localizedDescription) {
-                loadTask()
-        }
-        default: EmptyView()
+                loadArticles()
+            }
+        default:
+            EmptyView()
         }
     }
     
     private var articles: [Article] {
-        if case let .success(articles) = articleNewsVM.phase {
+        if case let .success(articles) = articleNewsVM.dataFetchPhase {
             return articles
         } else {
             return []
         }
     }
-    private func loadTask() {
+    // MARK: - Private Methods
+    private func loadArticles() {
         Task {
             await articleNewsVM.loadArticles()
         }
     }
+    // MARK: - Menu
     private var menu: some View {
         Menu {
             Picker("Categoty", selection: $articleNewsVM.selectedCategory) {
-                ForEach(NewsCategory.allCases) {
-                    Text($0.text).tag($0)
+                ForEach(NewsCategory.allCases) { categoty in
+                    Text(categoty.text).tag(categoty)
                 }
             }
-            
+        } label: {
+            Image(systemName: "fiberchannel")
+                .imageScale(.large)
         }
-    label: {
-        Image(systemName: "fiberchannel")
-            .imageScale(.large)
-    }
     }
     
 }
