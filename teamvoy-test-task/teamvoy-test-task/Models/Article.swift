@@ -29,7 +29,7 @@ struct Article: Codable, Equatable, Identifiable  {
     }
     
     var captionText: String {
-        "\(source.name) 🥹 \(relativeDateFormatter.localizedString(for: publishedAt, relativeTo: Date()))"
+        "\(source.name) - \(relativeDateFormatter.localizedString(for: publishedAt, relativeTo: Date()))"
     }
     
     var articleURL: URL {
