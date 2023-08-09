@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SearchTabView: View {
     
-    @StateObject var searchVM = ArticleSearchViewModel()
+    @StateObject private var searchVM = ArticleSearchViewModel()
+    
     var body: some View {
         NavigationView {
             ArticleListView(articles: articles)
@@ -23,7 +24,7 @@ struct SearchTabView: View {
     
     
     private var articles: [Article] {
-        if case .success(let articles) = searchVM.phase {
+        if case .success(let articles) = searchVM.dataFetchPhase {
             return articles
         } else {
             return []
@@ -31,7 +32,7 @@ struct SearchTabView: View {
     }
     @ViewBuilder
     private var overlayView: some View {
-        switch searchVM.phase {
+        switch searchVM.dataFetchPhase {
         case .empty:
             if !searchVM.searchQuery.isEmpty {
                 ProgressView()
@@ -42,7 +43,8 @@ struct SearchTabView: View {
             EmptyPlaceHolderView(text: "No search results found", image: Image(systemName: "magnifyingglass"))
         case .failure(let error):
             RetryView(text: error.localizedDescription, retryAction: search)
-        default: EmptyView()
+        default:
+            EmptyView()
         }
     }
     
@@ -54,7 +56,6 @@ struct SearchTabView: View {
 }
 
 struct SearchTabView_Previews: PreviewProvider {
-    
     static var previews: some View {
         SearchTabView()
     }
