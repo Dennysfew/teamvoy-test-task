@@ -21,14 +21,15 @@ struct NewsAPI {
         return decoder
     }()
     
-    func fetch(from category: NewsCatagory) async throws -> [Article] {
+    func fetch(from category: NewsCategory) async throws -> [Article] {
         try await featchArticles(from: generateNewsURL(from: category))
     }
+    
     func search(for query: String) async throws -> [Article] {
         try await featchArticles(from: generateSearchURL(from: query))
     }
+    
     private func featchArticles(from url: URL) async throws -> [Article] {
-        
         let (data, response) = try await session.data(from: url)
         
         guard let response = response as? HTTPURLResponse else {
@@ -43,29 +44,36 @@ struct NewsAPI {
                 return apiResponse.articles ?? []
             } else {
                 throw generateError(description: apiResponse.message ?? "An error occured")
-                
             }
         default:
             throw generateError(description: "An server error occured")
         }
     }
+    
     private func generateError(code: Int = 1, description: String) -> Error {
         NSError(domain: "NewsAPI", code: code, userInfo: [NSLocalizedDescriptionKey: description])
     }
+    
     private func generateSearchURL(from query: String) -> URL {
-        let percentEncodedString = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? query
-        var url = "https://newsapi.org/v2/everything?"
-        url += "apiKey=\(apiKey)"
-        url += "&language=en"
-        url += "&q=\(percentEncodedString)"
-        return URL(string: url)!
+        var components = URLComponents(string: "https://newsapi.org/v2/everything")!
+        components.queryItems = [
+            URLQueryItem(name: "apiKey", value: apiKey),
+            URLQueryItem(name: "language", value: "en"),
+            URLQueryItem(name: "q", value: query)
+        ]
+        
+        return components.url!
     }
     
-    private func generateNewsURL(from category: NewsCatagory) -> URL {
-        var url = "https://newsapi.org/v2/top-headlines?"
-        url += "apiKey=\(apiKey)"
-        url += "&language=en"
-        url += "&category=\(category.rawValue)"
-        return URL(string: url)!
+    private func generateNewsURL(from category: NewsCategory) -> URL {
+        var components = URLComponents(string: "https://newsapi.org/v2/top-headlines")!
+        components.queryItems = [
+            URLQueryItem(name: "apiKey", value: apiKey),
+            URLQueryItem(name: "language", value: "en"),
+            URLQueryItem(name: "category", value: category.rawValue)
+        ]
+        
+        return components.url!
     }
 }
+
