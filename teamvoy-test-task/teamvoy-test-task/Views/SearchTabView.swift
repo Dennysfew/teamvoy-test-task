@@ -16,12 +16,12 @@ struct SearchTabView: View {
             ArticleListView(articles: articles)
                 .overlay(overlayView)
                 .navigationTitle("Search")
+                .navigationBarItems(trailing: calendar)
         }
         .searchable(text: $searchVM.searchQuery)
         .onSubmit (of: .search, search)
         
     }
-    
     
     private var articles: [Article] {
         if case .success(let articles) = searchVM.dataFetchPhase {
@@ -30,6 +30,7 @@ struct SearchTabView: View {
             return []
         }
     }
+    
     @ViewBuilder
     private var overlayView: some View {
         switch searchVM.dataFetchPhase {
@@ -51,6 +52,20 @@ struct SearchTabView: View {
     private func search() {
         Task {
             await searchVM.searchArticle()
+        }
+    }
+    
+    // MARK: - Calendar
+    private var calendar: some View {
+        Menu {
+            Picker("Date", selection: $searchVM.selectedTimePeriod) {
+                ForEach(DateType.allCases) { date in
+                    Text(date.text).tag(date)
+                }
+            }
+        } label: {
+            Image(systemName: "calendar")
+                .imageScale(.large)
         }
     }
 }
