@@ -20,13 +20,8 @@ struct EmptyPlaceHolderView: View {
                     .font(.system(size: 52))
             }
             Text(text)
+                .font(.headline)
             Spacer()
         }
-    }
-}
-
-struct EmptyPlaceHolderView_Previews: PreviewProvider {
-    static var previews: some View {
-        EmptyPlaceHolderView(text: "No Bookmarks", image: Image(systemName: "bookmark"))
     }
 }

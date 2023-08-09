@@ -37,10 +37,10 @@ struct Article: Codable, Equatable, Identifiable  {
     }
     
     var imageURL: URL? {
-        guard let urlToImage = urlToImage else {
+        guard let urlToImage = urlToImage, let imageURL = URL(string: urlToImage) else {
             return nil
         }
-        return URL(string: urlToImage)
+        return imageURL
     }
 }
 
@@ -59,6 +59,5 @@ extension Article {
 }
 
 struct Source: Codable, Equatable {
-    
     let name: String
 }
